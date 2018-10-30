@@ -33,7 +33,17 @@ cause_effect_pattern1 = "{NP} CAUSALV1 {NP and? NP?}"
 # First noun phrase is compound noun phrase: noun phrase AND noun phrase
 # Here, noun phrase is defined as optional adjective followed by 1+ nouns
 # Example: Inequality and extreme poverty cause underdevelopment.
-cause_effect_pattern2 = "{JJ? NN*+ and JJ? NN*+} CAUSALV2 {NP and? NP?}"
+
+# NP_chunk1: optional determiner or possessive, followed by
+# optional adjective and any number of nouns
+# Inspired by NLTK, Chapter 7 section on NP chunking
+NP_chunk1 = "DT?|PP? JJ? NN*+"
+
+# cause_NP1 is compound noun phrase, based on NP_chunk1
+cause_NP1 = "{" + NP_chunk1 + " and " + NP_chunk1 + "}"
+
+# cause_effect_pattern2 based on cause_NP1
+cause_effect_pattern2 = cause_NP1 + " CAUSALV2 {NP and? NP?}"
 
 # First noun phrase is optional adjective followed by plural noun
 # Example: Recessions cause inequality.
