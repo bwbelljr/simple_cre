@@ -26,6 +26,9 @@ for c in causal_verb_list2:
 # Consider adding noun phrase chunk from NLTK book, which has optional
 # determiner, etc.
 
+# TODO: Consider putting all causal patterns in separate Python file and
+# importing as a module
+
 # Simple {noun phrase} cause {noun phrase} pattern
 # Example: Smoking causes lung cancer.
 cause_effect_pattern1 = "{NP} CAUSALV1 {NP and? NP?}"
@@ -44,14 +47,22 @@ cause_NP1 = "{" + NP_chunk1 + " and " + NP_chunk1 + "}"
 
 # cause_effect_pattern2 based on cause_NP1
 cause_effect_pattern2 = cause_NP1 + " CAUSALV2 {NP and? NP?}"
+# cause_effect_pattern5 = cause_NP1 + " lead*|led to {NP and? NP?}"
 
 # First noun phrase is optional adjective followed by plural noun
 # Example: Recessions cause inequality.
 cause_effect_pattern3 = "{JJ? NNS|NNPS} CAUSALV2 {NP and? NP?}"
 
+# Patterns for {NP} leads|led|lead to {NP}
+cause_effect_pattern4 = "{NP} lead|led to {NP}"
+cause_effect_pattern5 = "{NP} leads to {NP}"
+# In this case, "lead" is POS tagged as noun, thus requiring manually defined NP
+cause_effect_pattern6 = cause_NP1 + " lead to {NP}"
+
 # Add patterns to list cause_effect_patterns
 cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
-                        cause_effect_pattern3]
+                        cause_effect_pattern3, cause_effect_pattern4,
+                        cause_effect_pattern5, cause_effect_pattern6]
 
 # TODO: Write a general purpose function to add patterns and test strings
 # to a list. One idea is to have a function add_to_list called like so:
@@ -199,7 +210,7 @@ def greedy_match(causal_tuple_list):
 cause_effect_order = (1,2)
 effect_cause_order = (2,1)
 
-print("I made it to the end of the program.")
+# print("I made it to the end of the program.")
 
 def extract_patterns_from_text(pattern_list, unicode_string, cause_effect_order):
     # Description: Given a list of patterns, returns a list of tuples
@@ -219,6 +230,9 @@ def extract_patterns_from_text(pattern_list, unicode_string, cause_effect_order)
         causal_tuple_pattern_list = find_causal_matches(unicode_string, pattern, cause_effect_order)
         if causal_tuple_pattern_list != []:
             causal_tuple_list.append(causal_tuple_pattern_list[0])
+
+    # Extract only unique elements of causal_tuple_list
+    causal_tuple_list = set(causal_tuple_list)
 
     if len(causal_tuple_list) > 1:
         # print ("more than one match:", causal_tuple_list)
