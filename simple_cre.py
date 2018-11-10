@@ -54,10 +54,10 @@ cause_effect_pattern2 = cause_NP1 + " CAUSALV2 {NP and? NP?}"
 cause_effect_pattern3 = "{JJ? NNS|NNPS} CAUSALV2 {NP and? NP?}"
 
 # Patterns for {NP} leads|led|lead to {NP}
-cause_effect_pattern4 = "{NP} lead|led to {NP}"
-cause_effect_pattern5 = "{NP} leads to {NP}"
+cause_effect_pattern4 = "{NP} lead|led|contribute|contributed to {NP}"
+cause_effect_pattern5 = "{NP} leads|contributes to {NP}"
 # In this case, "lead" is POS tagged as noun, thus requiring manually defined NP
-cause_effect_pattern6 = cause_NP1 + " lead to {NP}"
+cause_effect_pattern6 = cause_NP1 + " lead|contribute to {NP}"
 
 # Add patterns to list cause_effect_patterns
 cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
