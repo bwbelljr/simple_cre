@@ -59,10 +59,18 @@ cause_effect_pattern5 = "{NP} leads|contributes to {NP}"
 # In this case, "lead" is POS tagged as noun, thus requiring manually defined NP
 cause_effect_pattern6 = cause_NP1 + " lead|contribute to {NP}"
 
+# Patterns for {NP} results|resulted|result in {NP}
+cause_effect_pattern7 = "{NP} result|resulted in {NP}"
+cause_effect_pattern8 = "{NP} results in {NP}"
+cause_effect_pattern9 = cause_NP1 + " result in {NP}"
+cause_effect_pattern10 = "{" + NP_chunk1 + "}" + " results in {NP}"
+
 # Add patterns to list cause_effect_patterns
 cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
                         cause_effect_pattern3, cause_effect_pattern4,
-                        cause_effect_pattern5, cause_effect_pattern6]
+                        cause_effect_pattern5, cause_effect_pattern6,
+                        cause_effect_pattern7, cause_effect_pattern8,
+                        cause_effect_pattern9, cause_effect_pattern10]
 
 # TODO: Write a general purpose function to add patterns and test strings
 # to a list. One idea is to have a function add_to_list called like so:
@@ -200,6 +208,11 @@ def greedy_match(causal_tuple_list):
             for greedy_combo in greedy_causal_list:
                 if is_tuple_subset(combo[0], greedy_combo):
                     num_subsets += 1
+                elif is_tuple_subset(greedy_combo, combo[0]):
+                    # if greedy_combo - what is currently in greedy_causal_list
+                    # - is a subset of combo[0], remove greedy_combo from
+                    # greedy_causal_list
+                    greedy_causal_list.remove(greedy_combo)
 
             if num_subsets == 0:
                 greedy_causal_list.append(combo[0])
