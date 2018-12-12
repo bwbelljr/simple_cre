@@ -1,80 +1,131 @@
 # Test strings
 
-# Test strings: NP_cause (and NP_cause) [verb] NP_effect (and NP_effect)
+def generate_NP_list(string1, string2, string3, is_effect):
+    # Description: Given 3 strings, returns list of 3 noun
+    #              noun phrases of the form [NP],
+    #              [NP and NP], and [NP, NP, and NP]
+    # Inputs:      string1, string2, string3 are inputs
+    #              representing noun phrases to concatenate
+    #              for test sentences
+    #              is_effect = True implies noun phrases are
+    #              "effect" noun phrases
+    # Outputs:     list [np1, np2, np3] which can be used
+    #              to generate test sentences
 
-# NP (singular) causes NP
-test_text1 = "It is commonly known that economic development causes prosperity."
-test_text11 = "It is commonly known that economic development leads to prosperity."
-test_text21 = "It is commonly known that economic development contributes to prosperity."
-test_text31 = "It is commonly known that economic development results in prosperity."
+    # First noun phrase = string1
+    # Cause noun phrases are capitalized
+    if not is_effect:
+        np1 = string1.capitalize()
+    else:
+        np1 = string1.lower() + "."
 
-# NP caused NP
-test_text2 = "Economic development caused prosperity."
-test_text12 = "Economic development led to prosperity."
-test_text22 = "Economic development contributed to prosperity."
-test_text32 = "Economic development resulted in prosperity."
+    # Second noun phrase = string1 and string2
+    # string2 is lowercase
+    if not is_effect:
+        np2 = np1 + " and " + string2.lower()
+    else:
+        np2 = string1.lower() + " and " + string2.lower() + "."
 
-# NP and NP cause NP
-test_text3 = "Economic development and robust institutions cause prosperity."
-test_text13 = "Economic development and robust institutions lead to prosperity."
-test_text23 = "Economic development and robust institutions contribute to prosperity."
-test_text33 = "Economic development and robust institutions result in prosperity."
+    # Third noun phrase = string1, string2, and string3
+    # string2 and string3 are lowercase
+    # Effect noun phrases end in period
+    if not is_effect:
+        np3 = np1 + ", " + string2.lower() + ", and " + string3.lower()
+    else:
+        np3 = string1.lower() + ", " + string2.lower() + ", and " + string3.lower() + "."
 
- # NP and NP caused NP
-test_text4 = "Economic development and robust institutions caused prosperity."
-test_text14 = "Economic development and robust institutions led to prosperity."
-test_text24 = "Economic development and robust institutions contributed to prosperity."
-test_text34 = "Economic development and robust institutions resulted in prosperity."
+    # Return noun phrases in a list
+    return ([np1, np2, np3])
 
-# NP causes NP and NP
-test_text5 = "Economic development causes prosperity and social mobility."
-test_text15 = "Economic development leads to prosperity and social mobility."
-test_text25 = "Economic development contributes to prosperity and social mobility."
-test_text35 = "Economic development results in prosperity and social mobility."
+cause_NP_list = generate_NP_list("economic DEVELOPMENT", "Social development", "good governance", is_effect=False)
+effect_NP_list = generate_NP_list("prosperity", "social mobility", "improved living standards", is_effect=True)
 
-# NP caused NP and NP
-test_text6 = "Economic development caused prosperity and social mobility."
-test_text16 = "Economic development led to prosperity and social mobility."
-test_text26 = "Economic development contributed to prosperity and social mobility."
-test_text36 = "Economic development resulted in prosperity and social mobility."
+def generate_cause_NP_dict(NP_list, plural_NP):
+    # Description: Generate dictionary from noun phrase list,
+    #              specifying whether it is singular/plural
+    # Inputs:      NP_list, list of noun phrases for test sentences
+    #              plural_NP, noun phrase in plural form
+    # Output:      Dictionary with each noun phrase as key and
+    #              "singular"/"plural" as value
 
-# NP and NP caused NP
-test_text7 = "Economic development and good governance caused prosperity and mobility."
-test_text17 = "Economic development and good governance led to prosperity and mobility."
-test_text27 = "Economic development and good governance contributed to prosperity and mobility."
-test_text37 = "Economic development and good governance resulted in prosperity and mobility."
+    NP_dict = {}
 
-# NP and NP cause NP and NP
-test_text8 = "Economic development and good governance cause prosperity and mobility."
-test_text18 = "Economic development and good governance lead to prosperity and mobility."
-test_text28 = "Economic development and good governance contribute to prosperity and mobility."
-test_text38 = "Economic development and good governance result in prosperity and mobility."
+    # For each noun phrase, add to
+    # dictionary with key="noun phrase"
+    # and value="singular"/"plural"
+    for NP in NP_list:
+        # " and " implies multiple NP's
+        if (" and " in NP):
+            NP_dict[NP]="plural"
+        else:
+            NP_dict[NP]="singular"
 
-# NP (plural) cause NP
-test_text9 = "Billionaires cause economic development."
-test_text19 = "Recessions lead to fiscal reforms."
-test_text29 = "Recessions contribute to fiscal reforms."
-test_text39 = "Recessions result in fiscal reforms."
+    # Add additional plural noun phrase
+    # Capitalize noun phrase as it starts the sentence
+    NP_dict[plural_NP.capitalize()]="plural"
 
-# Simple patterns but multiple sentences...
-test_text10 = "Economic development and robust institutions cause prosperity. We also know that excessive cigarette smoking causes lung cancer."
-test_text20 = "Economic development and robust institutions lead to prosperity. We also know that excessive cigarette smoking leads to lung cancer."
-test_text30 = "Economic development and robust institutions contribute to prosperity. We also know that excessive cigarette smoking contributes to lung cancer."
-test_text40 = "Economic development and robust institutions result in prosperity. We also know that excessive cigarette smoking results in lung cancer."
+    return(NP_dict)
 
-test_strings = []
+cause_NP_dict = generate_cause_NP_dict(cause_NP_list, "effective states")
 
-# TODO: Find a way to automatically generate test string names and
-# create a loop to include into the test_strings list.
-test_strings_list = [test_text1, test_text2, test_text3, test_text4,
-                test_text5, test_text6, test_text7, test_text8, test_text9,
-                test_text10, test_text11, test_text12, test_text13, test_text14,
-                test_text15, test_text16, test_text17, test_text18, test_text19,
-                test_text20, test_text21, test_text22, test_text23, test_text24,
-                test_text25, test_text26, test_text27, test_text28, test_text29,
-                test_text30, test_text31, test_text32, test_text33, test_text34,
-                test_text35, test_text36, test_text37, test_text38, test_text39,
-                test_text40]
+# for verb phrases, possibly just define a dictionary with singular/plural
+# over time, you can simply add other verbs to this list...
+
+cause_vp_dict = {"cause": "plural",
+                 "causes": "singular",
+                 "caused":"singular/plural",
+                 "has caused":"singular",
+                 "have caused":"plural",
+                 "would cause":"singular/plural",
+                 "had caused":"singular/plural",
+                 "causes":"singular",
+                 "will cause":"singular/plural",
+                 "will have caused":"singular/plural",
+                 "would have caused":"singular/plural",
+                 "is causing":"singular",
+                 "are causing":"plural",
+                 "has been causing":"singular",
+                 "have been causing": "plural",
+                 "was causing":"singular",
+                 "were causing":"plural",
+                 "had been causing":"singular/plural",
+                 "will be causing":"singular/plural",
+                 "will have been causing":"singular/plural",
+                 "would be causing":"singular/plural",
+                 "would have been causing":"singular/plural"}
+
+# Generate Test Sentences
+
+def generate_test_sents(cause_NP_dict, cause_vp_dict, effect_NP_list):
+    # Description: generate test sentences given cause and effect
+    #              noun phrases as well as a verb phrase.
+    # Inputs:      cause_NP_dict: dictionary of cause noun phrases & tenses
+    #              cause_vp_dict: dictionary of verb phrases & tenses
+    #              effect_NP_list: list of effect noun phrases
+    # Output:      test_sents_list: list of generated sentences
+
+    # Initialize counter: my_sum
+    my_sum = 1
+
+    test_sents_list = []
+
+    # For each cause noun phrase, concatenate
+    # verb phrase of compatible tense and
+    # each possible verb phrase.
+    for noun_phrase in cause_NP_dict:
+        for verb_phrase in cause_vp_dict:
+            # Ensure that tense of noun and verb phrases agree
+            if cause_NP_dict[noun_phrase] in cause_vp_dict[verb_phrase]:
+                # Concatenate verb phrases
+                for effect_NP in effect_NP_list:
+                    # print(my_sum, noun_phrase, verb_phrase, effect_NP)
+                    test_sent = noun_phrase + " " + verb_phrase + " " + effect_NP
+                    test_sents_list.append(test_sent)
+                    my_sum += 1
+
+    return (test_sents_list)
+
+test_strings_list = generate_test_sents(cause_NP_dict, cause_vp_dict, effect_NP_list)
 
 # Print out list of test strings to confirm all strings are as expected
 for test_string_index in range(len(test_strings_list)):
