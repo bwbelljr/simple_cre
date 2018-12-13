@@ -1,5 +1,14 @@
 # Test strings
 
+class TestSent:
+    'Common base class for all test sentences'
+
+    def __init__(self, test_sent, cause_NP, verb_phrase, effect_NP):
+        self.test_sent = test_sent
+        self.cause_NP = cause_NP
+        self.verb_phrase = verb_phrase
+        self.effect_NP = effect_NP
+
 def generate_NP_list(string1, string2, string3, is_effect):
     # Description: Given 3 strings, returns list of 3 noun
     #              noun phrases of the form [NP],
@@ -119,7 +128,9 @@ def generate_test_sents(cause_NP_dict, cause_vp_dict, effect_NP_list):
                 # Concatenate verb phrases
                 for effect_NP in effect_NP_list:
                     # print(my_sum, noun_phrase, verb_phrase, effect_NP)
-                    test_sent = noun_phrase + " " + verb_phrase + " " + effect_NP
+                    test_sent_string = noun_phrase + " " + verb_phrase + " " + effect_NP
+                    test_sent = TestSent(test_sent_string, noun_phrase, verb_phrase, effect_NP)
+
                     test_sents_list.append(test_sent)
                     my_sum += 1
 
@@ -129,4 +140,4 @@ test_strings_list = generate_test_sents(cause_NP_dict, cause_vp_dict, effect_NP_
 
 # Print out list of test strings to confirm all strings are as expected
 for test_string_index in range(len(test_strings_list)):
-    print(str(test_string_index+1)+":", test_strings_list[test_string_index], "\n")
+    print(str(test_string_index+1)+":", test_strings_list[test_string_index].effect_NP, "\n")
