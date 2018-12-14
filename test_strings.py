@@ -140,4 +140,4 @@ test_strings_list = generate_test_sents(cause_NP_dict, cause_vp_dict, effect_NP_
 
 # Print out list of test strings to confirm all strings are as expected
 for test_string_index in range(len(test_strings_list)):
-    print(str(test_string_index+1)+":", test_strings_list[test_string_index].effect_NP, "\n")
+    print(str(test_string_index+1)+":", test_strings_list[test_string_index].test_sent, "\n")
