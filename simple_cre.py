@@ -253,10 +253,13 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
         # return only the greedy matches from causal_tuple_list
         causal_tuple_list = greedy_match(causal_tuple_list)
 
-    print("RESULT:", causal_tuple_list, '\n')
+    print("RESULT:", list(causal_tuple_list), '\n')
     ground_truth_tuple = (sample_string.cause_NP, sample_string.effect_NP)
     print("GROUND TRUTH:", ground_truth_tuple)
-    print("RESULT=GROUND TRUTH?", ground_truth_tuple==causal_tuple_list)
+    if len(list(causal_tuple_list)) > 0:
+        print("RESULT=GROUND TRUTH?", ground_truth_tuple==list(causal_tuple_list)[0])
+    else:
+        print("RESULT=GROUND TRUTH? False")
     print("-----------------------------------------------------------------")
 
 

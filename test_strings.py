@@ -129,7 +129,7 @@ def generate_test_sents(cause_NP_dict, cause_vp_dict, effect_NP_list):
                 for effect_NP in effect_NP_list:
                     # print(my_sum, noun_phrase, verb_phrase, effect_NP)
                     test_sent_string = noun_phrase + " " + verb_phrase + " " + effect_NP
-                    test_sent = TestSent(test_sent_string, noun_phrase, verb_phrase, effect_NP)
+                    test_sent = TestSent(test_sent_string, noun_phrase, verb_phrase, effect_NP[:-1])
 
                     test_sents_list.append(test_sent)
                     my_sum += 1
