@@ -225,7 +225,7 @@ effect_cause_order = (2,1)
 
 # print("I made it to the end of the program.")
 
-def extract_patterns_from_text(pattern_list, unicode_string, cause_effect_order):
+def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
     # Description: Given a list of patterns, returns a list of tuples
     #              of form [(causeNP, effectNP)], where each tuple is
     #              not a subset of another tuple in the list.
@@ -240,7 +240,7 @@ def extract_patterns_from_text(pattern_list, unicode_string, cause_effect_order)
     # Iterate through list of cause_effect patterns
     # If you find a match, add causal_tuple (cause_NP, effect_NP) to causal_tuple_list
     for pattern in pattern_list:
-        causal_tuple_pattern_list = find_causal_matches(unicode_string, pattern, cause_effect_order)
+        causal_tuple_pattern_list = find_causal_matches(sample_string.test_sent, pattern, cause_effect_order)
         if causal_tuple_pattern_list != []:
             causal_tuple_list.append(causal_tuple_pattern_list[0])
 
@@ -254,6 +254,11 @@ def extract_patterns_from_text(pattern_list, unicode_string, cause_effect_order)
         causal_tuple_list = greedy_match(causal_tuple_list)
 
     print("RESULT:", causal_tuple_list, '\n')
+    ground_truth_tuple = (sample_string.cause_NP, sample_string.effect_NP)
+    print("GROUND TRUTH:", ground_truth_tuple)
+    print("RESULT=GROUND TRUTH?", ground_truth_tuple==causal_tuple_list)
+    print("-----------------------------------------------------------------")
+
 
     return causal_tuple_list
 
@@ -263,7 +268,7 @@ index = 1
 # Iterate through all test strings
 for sample_string in test_strings.test_strings_list:
     # print test string
-    print("test_string:", index, '\n', sample_string)
+    print("test_string:", index, '\n', sample_string.test_sent)
     index += 1
 
     extract_patterns_from_text(cause_effect_patterns, sample_string, cause_effect_order)
