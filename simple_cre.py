@@ -8,17 +8,20 @@ from pattern.en import parsetree
 # Import (and print out) test strings for pattern matching
 import test_strings
 
-# Define Taxonomy CAUSALV1 for verbs: e.g., cause*, influence*, determine*
-causal_verb_list1 = ['causes', 'caused', 'influences', 'influenced',
-    'determines', 'determined']
+# Define Taxonomy CAUSALV1 for verbs: e.g., cause*
+causal_verb_list1 = ['causes', 'caused']
 for c in causal_verb_list1:
     taxonomy.append(c, type='CAUSALV1')
+# Consider adding other verb tenses based on cause here as appropriate
+
 
 # Define Taxonomy for CAUSALV2 for simple causal verbs tagged as nouns
-# in their simple present form, e.g., cause, influence, determine
-causal_verb_list2 = ['cause', 'influence', 'determine']
+# in their simple present form, e.g., cause
+causal_verb_list2 = ['cause']
 for c in causal_verb_list2:
     taxonomy.append(c, type='CAUSALV2')
+# Consider adding other verb tenses based on cause here as appropriate.
+# This includes verb tenses where subject/cause noun phrase is plural.
 
 # Cause-effect patterns: statements where cause precedes the effect
 
@@ -47,30 +50,14 @@ cause_NP1 = "{" + NP_chunk1 + " and " + NP_chunk1 + "}"
 
 # cause_effect_pattern2 based on cause_NP1
 cause_effect_pattern2 = cause_NP1 + " CAUSALV2 {NP and? NP?}"
-# cause_effect_pattern5 = cause_NP1 + " lead*|led to {NP and? NP?}"
 
 # First noun phrase is optional adjective followed by plural noun
 # Example: Recessions cause inequality.
 cause_effect_pattern3 = "{JJ? NNS|NNPS} CAUSALV2 {NP and? NP?}"
 
-# Patterns for {NP} leads|led|lead to {NP}
-cause_effect_pattern4 = "{NP} lead|led|contribute|contributed to {NP}"
-cause_effect_pattern5 = "{NP} leads|contributes to {NP}"
-# In this case, "lead" is POS tagged as noun, thus requiring manually defined NP
-cause_effect_pattern6 = cause_NP1 + " lead|contribute to {NP}"
-
-# Patterns for {NP} results|resulted|result in {NP}
-cause_effect_pattern7 = "{NP} result|resulted in {NP}"
-cause_effect_pattern8 = "{NP} results in {NP}"
-cause_effect_pattern9 = cause_NP1 + " result in {NP}"
-cause_effect_pattern10 = "{" + NP_chunk1 + "}" + " results in {NP}"
-
 # Add patterns to list cause_effect_patterns
 cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
-                        cause_effect_pattern3, cause_effect_pattern4,
-                        cause_effect_pattern5, cause_effect_pattern6,
-                        cause_effect_pattern7, cause_effect_pattern8,
-                        cause_effect_pattern9, cause_effect_pattern10]
+                        cause_effect_pattern3]
 
 # TODO: Write a general purpose function to add patterns and test strings
 # to a list. One idea is to have a function add_to_list called like so:
@@ -287,7 +274,3 @@ for sample_string in test_strings.test_strings_list:
     extract_patterns_from_text(cause_effect_patterns, sample_string, cause_effect_order)
 
     # Add each element of causal_tuple_list to database...
-
-# causal_tuple_list = [('excessive cigarette smoking', 'lung cancer'), ('Economic development and robust institutions', 'prosperity'), ('robust institutions', 'prosperity')]
-
-# print(greedy_match(causal_tuple_list))
