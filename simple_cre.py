@@ -45,8 +45,13 @@ cause_effect_pattern1 = "{NP} CAUSALV1 {NP and? NP?}"
 # Inspired by NLTK, Chapter 7 section on NP chunking
 NP_chunk1 = "DT?|PP? JJ? NN*+"
 
+NP_chunk2 = "VBD? NP"
+
+
 # cause_NP1 is compound noun phrase, based on NP_chunk1
 cause_NP1 = "{" + NP_chunk1 + " and " + NP_chunk1 + "}"
+
+cause_NP2 = "{" + NP_chunk2 + " , " + NP_chunk2 + " , and " + NP_chunk2 + "}"
 
 # cause_effect_pattern2 based on cause_NP1
 cause_effect_pattern2 = cause_NP1 + " CAUSALV2 {NP and? NP?}"
@@ -55,9 +60,52 @@ cause_effect_pattern2 = cause_NP1 + " CAUSALV2 {NP and? NP?}"
 # Example: Recessions cause inequality.
 cause_effect_pattern3 = "{JJ? NNS|NNPS} CAUSALV2 {NP and? NP?}"
 
+# NP causes NP, NP, and NP
+# For now, make specific and generalize once it works
+cause_effect_pattern4 = "{NP} causes {VBD? NP , VBD? NP , and VBD? NP}"
+
+# NP caused NP, NP, and NP
+cause_effect_pattern5 = "{NP} caused {VBD? NP , VBD? NP , and VBD? NP}"
+
+# NP would cause NP
+cause_effect_pattern6 = "{NP} would cause {NP}"
+
+# NP caused NP, NP, and NP
+cause_effect_pattern7 = "{NP} would cause {VBD? NP , VBD? NP , and VBD? NP}"
+
+# NP will cause NP
+cause_effect_pattern8 = "{NP} will cause {NP}"
+
+# NP will cause NP, NP, and NP
+cause_effect_pattern9 = "{NP} will cause {VBD? NP , VBD? NP , and VBD? NP}"
+
+# NP is causing NP
+cause_effect_pattern10 = "{NP} is causing {NP}"
+
+# NP is causing NP, NP, and NP
+cause_effect_pattern11 = "{NP} is causing {VBD? NP , VBD? NP , and VBD? NP}"
+
+# NP has been causing NP
+cause_effect_pattern12 = "{NP} has been causing {NP}"
+
+# NP has been causing NP, NP, and NP
+cause_effect_pattern13 = "{NP} has been causing {VBD? NP , VBD? NP , and VBD? NP}"
+
+# NP was causing NP
+cause_effect_pattern14 = "{NP} was causing {NP}"
+
+# NP has been causing NP, NP, and NP
+cause_effect_pattern15 = "{NP} was causing {VBD? NP , VBD? NP , and VBD? NP}"
+
 # Add patterns to list cause_effect_patterns
 cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
-                        cause_effect_pattern3]
+                        cause_effect_pattern3, cause_effect_pattern4,
+                        cause_effect_pattern5, cause_effect_pattern6,
+                        cause_effect_pattern7, cause_effect_pattern8,
+                        cause_effect_pattern9, cause_effect_pattern10,
+                        cause_effect_pattern11, cause_effect_pattern12,
+                        cause_effect_pattern13, cause_effect_pattern14,
+                        cause_effect_pattern15]
 
 # TODO: Write a general purpose function to add patterns and test strings
 # to a list. One idea is to have a function add_to_list called like so:
@@ -82,8 +130,8 @@ def extract_cause_effect_tuple(possible_matches, pattern_order):
     # Creates loop to iterate through all possible_matches
     for single_match in possible_matches:
         # Extract cause noun phrase and effect noun phrase
-        cause_NP = single_match.group(pattern_order[0]).string
-        effect_NP = single_match.group(pattern_order[1]).string
+        cause_NP = single_match.group(pattern_order[0]).string.replace(" ,", ",")
+        effect_NP = single_match.group(pattern_order[1]).string.replace(" ,", ",")
 
         # Add cause noun phrase and effect noun phrase to causal_tuple
         causal_tuple = (cause_NP, effect_NP)
@@ -240,6 +288,8 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
         # return only the greedy matches from causal_tuple_list
         causal_tuple_list = greedy_match(causal_tuple_list)
 
+    # TO DO - Turn code below into its own function
+    ###############################################
     ground_truth_tuple = (sample_string.cause_NP, sample_string.effect_NP)
 
     if len(list(causal_tuple_list)) == 0:
@@ -250,6 +300,7 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
     if not test_result:
         print("RESULT:", list(causal_tuple_list), '\n')
         print("GROUND TRUTH:", ground_truth_tuple)
+    ##############################################
 
 
 
