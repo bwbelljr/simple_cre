@@ -52,6 +52,12 @@ cause_NP1 = "{" + NP_chunk1 + " and " + NP_chunk1 + "}"
 
 cause_NP2 = "{" + NP_chunk2 + " , " + NP_chunk2 + " , and " + NP_chunk2 + "}"
 
+# cause_NP3 = "{" + NP_chunk1 + " , " + NP_chunk1 + " , and " + NP_chunk1 + "}"
+
+cause_NP3 = "{NP , NP , and " + NP_chunk1 + "}"
+
+cause_NP4 = "{" + NP_chunk1 + " , " + NP_chunk1 + " , and " + NP_chunk1 + "}"
+
 # cause_effect_pattern2 based on cause_NP1
 cause_effect_pattern2 = cause_NP1 + " CAUSALV2 {NP and? NP?}"
 
@@ -73,13 +79,31 @@ cause_effect_pattern4 = "{NP} CAUSALV3 {NP}"
 cause_effect_pattern5 = "{NP} CAUSALV3 {VBD? NP , VBD? NP , and VBD? NP}"
 
 cause_effect_pattern6 = cause_NP1 + " CAUSALV2 " + cause_NP2
-cause_effect_pattern7 = cause_NP2 + " CAUSALV2 {NP}"
+
+# cause_effect_pattern7 = cause_NP2 + " CAUSALV2 {NP}"
+
+cause_effect_pattern7 = cause_NP3 + " CAUSALV2 {" + NP_chunk1 + "}"
+
+cause_effect_pattern8 = cause_NP3 + " CAUSALV2 " + cause_NP1
+
+cause_effect_pattern9 = cause_NP3 + " CAUSALV2 " + cause_NP3
+
+cause_effect_pattern10 = cause_NP3 + " CAUSALV2 {VBD? NP , VBD? NP , and VBD? NP}"
+
+cause_effect_pattern11 = "{VBD? NP , VBD? NP , and VBD? NP} CAUSALV2 {NP}"
+
+cause_effect_pattern12 = cause_NP4 + " CAUSALV3 {" + NP_chunk1 + "}"
+
+cause_effect_pattern13 = cause_NP4 + " CAUSALV3 {NP}"
 
 # Add patterns to list cause_effect_patterns
 cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
                         cause_effect_pattern3, cause_effect_pattern4,
                         cause_effect_pattern5, cause_effect_pattern6,
-                        cause_effect_pattern7]
+                        cause_effect_pattern7, cause_effect_pattern8,
+                        cause_effect_pattern9, cause_effect_pattern10,
+                        cause_effect_pattern11, cause_effect_pattern12,
+                        cause_effect_pattern13]
 
 # TODO: Write a general purpose function to add patterns and test strings
 # to a list. One idea is to have a function add_to_list called like so:
@@ -139,7 +163,13 @@ def find_causal_matches(unicode_string, causal_pattern, pattern_order):
         causal_tuple_list = extract_cause_effect_tuple(possible_matches,
                                 pattern_order)
 
-    return(causal_tuple_list)
+    final_causal_tuple_list = []
+
+    for causal_tuple in causal_tuple_list:
+        if (causal_tuple[0] in unicode_string) and (causal_tuple[1] in unicode_string):
+            final_causal_tuple_list.append(causal_tuple)
+
+    return(final_causal_tuple_list)
 
 def is_tuple_subset(causal_tuple1, causal_tuple2):
     # Description: Determines if causal_tuple1 is subset of causal_tuple2
