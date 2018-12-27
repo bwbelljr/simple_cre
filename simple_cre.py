@@ -96,6 +96,12 @@ cause_effect_pattern12 = cause_NP4 + " CAUSALV3 {" + NP_chunk1 + "}"
 
 cause_effect_pattern13 = cause_NP4 + " CAUSALV3 {NP}"
 
+cause_effect_pattern14 = cause_NP3 + " CAUSALV3 {VBD? NP , VBD? NP , and VBD? NP}"
+
+cause_effect_pattern15 = cause_NP3 + " CAUSALV3 " + cause_NP3
+
+cause_effect_pattern16 = "{DT?|PP? JJ? NNS|NNPS} cause {VBD? JJ? NN*+ , VBD? JJ? NN*+ , and VBD? JJ? NN*+}"
+
 # Add patterns to list cause_effect_patterns
 cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
                         cause_effect_pattern3, cause_effect_pattern4,
@@ -103,7 +109,8 @@ cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
                         cause_effect_pattern7, cause_effect_pattern8,
                         cause_effect_pattern9, cause_effect_pattern10,
                         cause_effect_pattern11, cause_effect_pattern12,
-                        cause_effect_pattern13]
+                        cause_effect_pattern13, cause_effect_pattern14,
+                        cause_effect_pattern15, cause_effect_pattern16]
 
 # TODO: Write a general purpose function to add patterns and test strings
 # to a list. One idea is to have a function add_to_list called like so:
@@ -284,13 +291,23 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
             causal_tuple_list.append(causal_tuple_pattern_list[0])
 
     # Extract only unique elements of causal_tuple_list
-    causal_tuple_list = set(causal_tuple_list)
+    causal_tuple_list = list(set(causal_tuple_list))
 
     if len(causal_tuple_list) > 1:
-        # print ("more than one match:", causal_tuple_list)
+        # print ("more than one match:", type(causal_tuple_list), causal_tuple_list)
 
         # return only the greedy matches from causal_tuple_list
         causal_tuple_list = greedy_match(causal_tuple_list)
+
+    # For now, run this code one more time to eliminate subsets in causal tuple
+    # list. Later on, fix this code.
+    if len(causal_tuple_list) > 1:
+        # print ("more than one match:", type(causal_tuple_list), causal_tuple_list)
+
+        # return only the greedy matches from causal_tuple_list
+        causal_tuple_list = greedy_match(causal_tuple_list)
+
+    # print("after greedy_match, causal_tuple_list is", causal_tuple_list, "and has length:", len(causal_tuple_list))
 
     # TO DO - Turn code below into its own function
     ###############################################
