@@ -138,6 +138,12 @@ def generate_test_sents(cause_NP_dict, cause_vp_dict, effect_NP_list):
 
 test_strings_list = generate_test_sents(cause_NP_dict, cause_vp_dict, effect_NP_list)
 
+test_strings_list.append(TestSent("My name is Bob. It is clear that excessive smoking causes lung cancer. Have a nice day.", "excessive smoking", "causes", "lung cancer"))
+
+test_strings_list.append(TestSent("Sustainable prosperity causes job growth. My name is Bob. It is clear that excessive smoking causes lung cancer. Have a nice day. Authoritarian governments cause recessions.", "", "", ""))
+
+test_strings_list.append(TestSent("Sustainable prosperity causes job growth.", "", "", ""))
+
 # Print out list of test strings to confirm all strings are as expected
 for test_string_index in range(len(test_strings_list)):
     print(str(test_string_index+1)+":", test_strings_list[test_string_index].test_sent, "\n")

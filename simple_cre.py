@@ -276,7 +276,7 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
     #              of form [(causeNP, effectNP)], where each tuple is
     #              not a subset of another tuple in the list.
     # Inputs: pattern_list, list of defined patterns to match
-    #         unicode_string, text string from which we will extract causal tuples if they exist
+    #         sample_string, text string from which we will extract causal tuples if they exist
     #         cause_effect_order, defines which noun phrase is cause or effect
     # Output: greedy_causal_list, list of distinct, greedy causal tuples
 
