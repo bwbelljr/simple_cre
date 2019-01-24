@@ -6,7 +6,7 @@ from pattern.search import search, taxonomy
 from pattern.en import parsetree
 
 # Import (and print out) test strings for pattern matching
-import test_strings
+# import test_strings
 
 # Define Taxonomy CAUSALV1 for verbs: e.g., cause*
 causal_verb_list1 = ['causes', 'caused']
@@ -286,7 +286,7 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
     # Iterate through list of cause_effect patterns
     # If you find a match, add causal_tuple (cause_NP, effect_NP) to causal_tuple_list
     for pattern in pattern_list:
-        causal_tuple_pattern_list = find_causal_matches(sample_string.test_sent, pattern, cause_effect_order)
+        causal_tuple_pattern_list = find_causal_matches(sample_string, pattern, cause_effect_order)
         if causal_tuple_pattern_list != []:
             causal_tuple_list.append(causal_tuple_pattern_list[0])
 
@@ -311,16 +311,16 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
 
     # TO DO - Turn code below into its own function
     ###############################################
-    ground_truth_tuple = (sample_string.cause_NP, sample_string.effect_NP)
+    #ground_truth_tuple = (sample_string.cause_NP, sample_string.effect_NP)
 
-    if len(list(causal_tuple_list)) == 0:
-        test_result=False
-    if len(list(causal_tuple_list)) > 0:
-        test_result = ground_truth_tuple==list(causal_tuple_list)[0]
+    #if len(list(causal_tuple_list)) == 0:
+    #        test_result=False
+    #if len(list(causal_tuple_list)) > 0:
+    #    test_result = ground_truth_tuple==list(causal_tuple_list)[0]
 
-    if not test_result:
-        print("RESULT:", list(causal_tuple_list), '\n')
-        print("GROUND TRUTH:", ground_truth_tuple)
+    #if not test_result:
+    #    print("RESULT:", list(causal_tuple_list), '\n')
+    #    print("GROUND TRUTH:", ground_truth_tuple)
     ##############################################
 
 
@@ -329,20 +329,20 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
     #    print("RESULT=GROUND TRUTH?", ground_truth_tuple==list(causal_tuple_list)[0])
     #else:
     #        print("RESULT=GROUND TRUTH? False")
-    print("-----------------------------------------------------------------")
+    #print("-----------------------------------------------------------------")
 
 
     return causal_tuple_list
 
 # Initialize index for easy referencing
-index = 1
+#index = 1
 
 # Iterate through all test strings
-for sample_string in test_strings.test_strings_list:
+#for sample_string in test_strings.test_strings_list:
     # print test string
-    print("test_string:", index, '\n', sample_string.test_sent)
-    index += 1
+#    print("test_string:", index, '\n', sample_string.test_sent)
+#    index += 1
 
-    extract_patterns_from_text(cause_effect_patterns, sample_string, cause_effect_order)
+#    extract_patterns_from_text(cause_effect_patterns, sample_string, cause_effect_order)
 
     # Add each element of causal_tuple_list to database...
