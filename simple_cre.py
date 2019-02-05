@@ -23,8 +23,9 @@ for c in causal_verb_list2:
 # Consider adding other verb tenses based on cause here as appropriate.
 # This includes verb tenses where subject/cause noun phrase is plural.
 
+###############################################################################
 # Cause-effect patterns: statements where cause precedes the effect
-
+###############################################################################
 # Manually-defined noun phrase definitions
 # Consider adding noun phrase chunk from NLTK book, which has optional
 # determiner, etc.
@@ -112,6 +113,19 @@ cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
                         cause_effect_pattern13, cause_effect_pattern14,
                         cause_effect_pattern15, cause_effect_pattern16]
 
+###############################################################################
+# Effect-cause patterns: statements where cause follows the effect
+###############################################################################
+# Define individual patterns here
+effect_cause_pattern1 = "{NP} be cause by {NP}"
+effect_cause_pattern2 = "{NP} be cause by {NP , NP , and NP}"
+effect_cause_pattern3 = "{NP , NP , and NP} be cause by {NP}"
+effect_cause_pattern4 = "{NP , NP , and NP} be cause by {NP}"
+
+# Add patterns to list effect_cause_patterns
+effect_cause_patterns = [effect_cause_pattern1, effect_cause_pattern2,
+                         effect_cause_pattern3, effect_cause_pattern4]
+
 # TODO: Write a general purpose function to add patterns and test strings
 # to a list. One idea is to have a function add_to_list called like so:
 # cause_effect_patterns = add_to_list(cause_effect_patterns, "cause_effect_pattern", 3),
@@ -121,7 +135,7 @@ cause_effect_patterns = [cause_effect_pattern1, cause_effect_pattern2,
 # applied to cause_effect_patterns, effect_cause_patterns, and test_strings.
 # Think about where to place this function, esp. if it is used for test_strings.
 
-print(cause_effect_patterns)
+#print(cause_effect_patterns)
 
 def extract_cause_effect_tuple(possible_matches, pattern_order):
     # Description: Given possible_matches, returns a list of causal tuples
@@ -158,7 +172,7 @@ def find_causal_matches(unicode_string, causal_pattern, pattern_order):
     causal_tuple_list = []
 
     # Convert string to Pattern parsed text (with POS tags)
-    t = parsetree(unicode_string)
+    t = parsetree(unicode_string, lemmata=True)
 
     # possible_matches is a list of all Pattern matches, given text and pattern
     possible_matches = search(causal_pattern, t, lemmata=True)
@@ -271,7 +285,7 @@ effect_cause_order = (2,1)
 
 # print("I made it to the end of the program.")
 
-def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
+def extract_patterns_from_text(pattern_list, sample_string, pattern_order):
     # Description: Given a list of patterns, returns a list of tuples
     #              of form [(causeNP, effectNP)], where each tuple is
     #              not a subset of another tuple in the list.
@@ -286,7 +300,7 @@ def extract_patterns_from_text(pattern_list, sample_string, cause_effect_order):
     # Iterate through list of cause_effect patterns
     # If you find a match, add causal_tuple (cause_NP, effect_NP) to causal_tuple_list
     for pattern in pattern_list:
-        causal_tuple_pattern_list = find_causal_matches(sample_string, pattern, cause_effect_order)
+        causal_tuple_pattern_list = find_causal_matches(sample_string, pattern, pattern_order)
         if causal_tuple_pattern_list != []:
             causal_tuple_list.append(causal_tuple_pattern_list[0])
 
